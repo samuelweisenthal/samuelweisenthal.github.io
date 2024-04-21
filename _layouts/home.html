@@ -68,14 +68,14 @@
       </ul>
     </p>
     -->
-           <p>Thoughts</p>
+           <p>Random thoughts</p>
     <ul>
           <li>I try to be mindful about not anthropomorphizing statistical models. For example, when working on a method called “... - based learning,” I wanted to suggest calling it “... - aware learning,” but I stopped myself.  Anthropomorphism is great because it helps people quickly understand what you’re doing; it’s bad because it can be misleading. One needs to always consider whether the cons of being misleading outweigh the pros of quicker understanding.</li>
           <li>Consider a guidline that administers home supplemental O2 if O2 sat is less than 88%. Putting this in the language of decision analysis, this treatment policy is pi(Supp O2=1|ox sat) = I(ox sat<88%). Is pi=I(ox sat<88%) really optimal for someone who has O2 sat 88.1%?</li>
     <li>I don’t like: sensitivity = TP/(TP + FN). I do like: sensitivity estimates p(Test+|Dz+).</li>
           <li>A black box predictive model can be useful in the clinic, if it is revalidated, and possibly retrained, everywhere it is used. Better understanding of a risk factor, however, can be communicated instantly, for free, around the world. Model interpretability is important.</li>
           <li>When trying to understand a mathematical proof or argument, I often use “backtracking” and “momentum.”  Consider a proof outline
-
+    
 Axiom
 Statement 1
 Statement 2
@@ -88,7 +88,113 @@ Statement 3
 If I get stuck at Statement 2, rather than backtracking to Statement 1, I often backtrack all the way to Axiom. Then I run through Axiom, Statement 1, Statement 2. This feels to me like building up momentum, increasing the chances that I break through Statement 2.
             I hope that backtracking and momentum might be useful to you someday as well!
           </li>
+<li>A medical decision is not good or bad based on what happened, but what would have happened over many replicates of the same decision.</li>
+<li>Probability is not utility.</li>
+            <li>Probability can be used to describe almost any clinical task, including diagnosis, prognosis, and decision making.</li>
+            <li>Connection between PPV and risk:
+
+We often see positive predictive value as
+        ppv = tp / (tp+fn).
+
+As mentioned, ppv is really an estimator for p(dz+|test+).
+
+Risk scores estimate p(dz+|age, smoking, BMI, etc… ).
+
+So ppv is a risk score with test result as the risk factor.</li>
+            <li>Clinical mentors have often advised me to read / do practice questions around my patients. It makes it stick.  
+
+Easily achievable feature for 
+@uworld
+, 
+@ambossmed
+: students type a few keywords (e.g., AKI, Sjogren, diabetes), and they get back a list of relevant questions.</li>
+            <li>It’s easy to focus on probability and forget utility.
+
+In other words, if you have a disease, and I tell you that I have a curative medication that is generally well-tolerated, the next question should be “how bad is the side effect relative to the disease”.</li>
+          <li>In my last thread, I mentioned that it can be easier to think in terms of conditional probability
+
+                    sensitivity as p(test+|dz+),
+
+than to remember the formula
+
+                  sensitivity = tp/(tp+fn).
+
+I will try to show why p(test+|dz+) is intuitive.
+          Before talking about the conditional prob, p(test+|dz+), how to estimate unconditional prob, p(test+)?
+
+To do so, we ask: what proportion of a sample test positive?
+
+So, if I have a sample of 100 people, and 10 have a positive test, then p(test+) can be estimated by 10/100.
+          Now, how do I estimate a conditional prob, p(test+|dz+)?
+
+I start with the idea that p(test+|dz+) is the prob of testing positive *in the subset of the sample with the disease.*
+
+We then compute the proportion of that subset who test positive, *as w/ unconditional prob.*
+            Example: to estimate p(test+|dz+), we can ask, for all those who have the disease, what proportion test positive?
+          To estimate p(test+|dz+), we are considering the subset of the sample for which dz+ is true. That is the first row of the table. We can ignore the rest.
+            In this subset, what is the probability of testing positive? It’s the number of people with positive tests divided by the number of people in the sample.
+
+tp / (tp+fn).
+
+That’s the formula for sensitivity.
+            BTW, p(dz+|test+) is ppv. Thinking in terms of conditional probabilities reveals certain relationships. There is a close relationship between ppv and risk models, which I will discuss soon.
           
+          </li>
+
+            <li>In medical diagnosis, I prefer to think in terms of probabilities than in terms of formulas.
+
+For example, one could remember the formula,
+
+sensitivity = tp/(tp + fn).
+            However, it’s easier to understand that sensitivity is the probability of a test being positive given that a disease is positive:
+
+sens = p(test+|dz+)
+
+and tp/(tp+fn) is just a way to use data to estimate this quantity.
+              In particular,
+
+p(test+|dz+)=p(test+,dz+)/p(dz+),
+
+and if there are n people in the 2x2 table, one can estimate
+
+p(test+,dz+) with tp/n,
+
+and
+
+p(dz+) = p(dz+,test+) + p(dz+,test-) with (tp+fn)/n.
+
+Stack these, the n cancel, and we get the first formula for sensitivity.
+
+              Although I can write these probabilities in terms of tp, fn, etc, I don’t need to. I can just compute them directly from a table, which is easier than remembering formulas that depend on tp, fn.
+
+              Maybe more importantly, the probabilistic way of thinking shows us the link between PPV and risk scores, which I will discuss next.
+            </li>
+
+            <li>Often, in medicine, there is some disease defined as a function of a biomarker, eg disease=f(biomarker).
+
+For risk models, the disease is then modeled as a binary random variable.
+
+Why not model the biomarker directly (eg as a continuous rv, if the biomarker is continuous)?</li>
+
+            <li>To maximize expected reward, 
+
+E_pi R(S,A,S’) = int_s int_s’ sum_a r(s,a,s’) p(s’|a,s)pi(a|s)p(s)ds’ds,
+
+ an important target estimand in a trial is
+
+p(s’|a,s)
+
+eg
+
+p((stroke post tx,bleed post tx,...)| tx, (stroke pre tx,bleed pre tx,...))
+</li>
+
+            <li>Benign heme poses interesting decision problems, since one has to balance the risk of thrombus with the risk of bleeding.
+            One has to consider not just the probabilities of thrombus and bleeding, but also their potential impact on the patient. For example, a stroke is usually worse than a bleed, but a bleed might be much more likely than a stroke if the patient has had many recent bleeds.
+            So, in a decision framework, we have action as anticoagulation, the state as the set of patient characteristics (whether the patient is currently or has previously clotted or bled), and a reward that weights the two according to impact on the patient’s final health outcomes.
+            </li>
+
+            
           </ul>
 
     
