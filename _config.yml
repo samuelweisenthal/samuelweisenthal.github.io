@@ -7,7 +7,7 @@ logo: # logo.png # filename of a logo image that has been placed into your image
 
 # Enter the following platform usernames if you would like for them to appear on your site.
 owner:
-  name: Sam Weisenthal
+  name: Samuel Weisenthal
   avatar: headshot.jpg
   bio: 
   email: samweisenthal@gmail.com
@@ -33,7 +33,7 @@ owner:
   foursquare: #username
   steam: #username
   dribbble: #username
-  youtube: #username
+  youtube: samweisenthal
   soundcloud: #username
   weibo: #username
   flickr: #username
